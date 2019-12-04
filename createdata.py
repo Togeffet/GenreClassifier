@@ -45,12 +45,12 @@ def read_song_file(path):
 
     return end_data
 
-def convert_to_features(path):
+def convert_to_features(infile, outfile):
 
-    print("Converting files in {} to feature data file.".format(path))
+    print("Converting files in {} to feature data file.".format(infile))
 
     #Get directory list
-    dirs = os.listdir(path)
+    dirs = os.listdir(infile)
     dirs.sort()
 
     class_dict = dict()
@@ -65,8 +65,8 @@ def convert_to_features(path):
     #Count the total number of files (used to set numpy array size)
     num_songs = 0
     for directory in dirs:
-        if(os.path.isdir(path + "/" + directory)):
-            song_files = os.listdir(path + "/" + directory)
+        if(os.path.isdir(infile + "/" + directory)):
+            song_files = os.listdir(infile + "/" + directory)
             num_songs += len(song_files)
 
     #Create matrix
@@ -76,16 +76,16 @@ def convert_to_features(path):
     entry_row = 0
     for directory in dirs:
 
-        if not os.path.isdir(path + "/" + directory):
+        if not os.path.isdir(infile + "/" + directory):
             continue
 
         #List files in each directory
-        song_files = os.listdir(path + "/" + directory)
+        song_files = os.listdir(infile + "/" + directory)
 
         for sfile in song_files:
 
             #Full name relative to working dir
-            full_name = path + "/" + directory + "/" + sfile
+            full_name = infile + "/" + directory + "/" + sfile
             print("\tGetting features for " + full_name)
 
             #Get features and insert them at the given row in the array
@@ -94,8 +94,8 @@ def convert_to_features(path):
             #Increment the insert index
             entry_row += 1
     
-    np.save(path + "/features", data_matrix)
+    np.save(outfile, data_matrix)
     return
 
 def read_feature_data(path):
-    return np.load(path + "/features.npy")
+    return np.load(path)
