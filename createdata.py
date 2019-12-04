@@ -18,35 +18,27 @@ def read_song_file(path):
 
     #Extract data 
     middle_data = data[from_pos:to_pos]
-    
-    print("{} Total Samples ({}s)".format(total_samples, total_seconds))
-    print("Middle section has {} total samples ({}s)".format(to_pos - from_pos, (to_pos - from_pos) / sample_rate))
 
     #Calculate the zero crossing rate
     zero_crossings = librosa.zero_crossings(y=middle_data, pad=False)
     zero_crossings = np.count_nonzero(zero_crossings)
-    print(zero_crossings)
 
     #Calculate the spectral centroid
     spectral_centroids = librosa.feature.spectral_centroid(y=middle_data, sr=sample_rate)
     spectral_centroids.flatten()
-    print(spectral_centroids.shape)
     
     #Calculate the spectral rolloff
     spectral_rolloff = librosa.feature.spectral_rolloff(y=middle_data, sr=sample_rate)
     spectral_rolloff.flatten()
-    print(spectral_rolloff.shape)
 
     #Calculate mel-frequency cepstral coefficients
     mfccs = librosa.feature.mfcc(y=middle_data, sr=sample_rate)
     mfccs.flatten()
-    print(mfccs.shape)
 
     #Calculate the chroma frequencies
     hop_length = 512
     chroma = librosa.feature.chroma_stft(y=middle_data, sr=sample_rate, hop_length=hop_length)
     chroma.flatten()
-    print(chroma.shape)
 
     end_data = np.concatenate( (spectral_centroids, spectral_rolloff, mfccs, chroma) , axis=None )
     np.insert(end_data, 0, zero_crossings)
