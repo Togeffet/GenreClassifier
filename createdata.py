@@ -83,16 +83,20 @@ def convert_to_features(infile, outfile):
         song_files = os.listdir(infile + "/" + directory)
 
         for sfile in song_files:
-
             #Full name relative to working dir
             full_name = infile + "/" + directory + "/" + sfile
             print("\tGetting features for " + full_name)
 
-            #Get features and insert them at the given row in the array
-            data_matrix[entry_row] = np.insert(read_song_file(full_name), 0, class_dict[directory])
+            if full_name.endswith(".mp3"):
+                
 
-            #Increment the insert index
-            entry_row += 1
+                print("\tGetting features for " + full_name)
+
+                #Get features and insert them at the given row in the array
+                data_matrix[entry_row] = np.insert(read_song_file(full_name), 0, class_dict[directory])
+
+                #Increment the insert index
+                entry_row += 1
     
     np.save(outfile, data_matrix)
     return
