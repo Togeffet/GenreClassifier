@@ -1,29 +1,11 @@
-import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
+import createdata
+import gradientdescent as gd
 
-import songread
-from gradientdescent import gradient_descent
+train_data = "music/train"
+test_data = "music/test"
 
-#audio_path = 'music/touch_the_sky.mp3'
-#zc, sc, sr, mf, chroma = songread.read_song_file(audio_path)
+createdata.convert_to_features(train_data)
 
-#print("""Zero Crossings: {}\n
-#         Specral Centroids: {}\n\
-#         Spectral Rolloff:{}\n\
-#         MFCCS: {}\n\
-#         Chroma Freqs: {}\n""".format(zc, sc, sr, mf, chroma))
+X_and_y_matrix = createdata.read_feature_data(train_data)
 
-X = [
-  [0.829612087, 0.829612087],
-  [0.829612087, 0.829612087],
-  [0.829612087, 0.829612087],
-  [0.829612087, 0.829612087]
-]
-Y = [
-  [1],
-  [1],
-  [0],
-  [0]
-]
-alpha = .001
-print(gradient_descent(X, Y, alpha))
+print(gd.gradient_descent(X_and_y_matrix[:, 1:], X_and_y_matrix[:, 0], 0.7))
