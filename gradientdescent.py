@@ -3,7 +3,7 @@ from g import g
 import matplotlib.pyplot as plt
 
 
-def gradient_descent(X, Y, alpha):
+def gradient_descent(X, Y, alpha, show_graph):
   print("running gradient descent")
 
   X = np.array(X)
@@ -15,12 +15,13 @@ def gradient_descent(X, Y, alpha):
 
 
   # normalize X and Y values
-  # for i in range (0, features):
-  #   X[:,i] = np.subtract(X[:,i], min(X[:,i]))
-  #   X[:,i] = np.divide(X[:,i], max(X[:,i]))
+  # This totally changes the output, so there could be something wrong with this
+  for i in range (0, features):
+    X[:,i] = np.subtract(X[:,i], min(X[:,i]))
+    X[:,i] = np.divide(X[:,i], max(X[:,i]))
     
-  # Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
-  # Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
+  Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
+  Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
   
   
   X = np.hstack((np.ones((samples, 1)), X))
@@ -47,12 +48,15 @@ def gradient_descent(X, Y, alpha):
   
     error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, Y), 2));
 
-    plt.plot(iteration, error, 'o', color="black")
+    if show_graph:
+      plt.plot(iteration, error, 'o', color="black")
     
 
     iteration += 1
 
   
   print("Gradient descent took " + str(iteration) + " iterations to converge")
-  plt.show()
+
+  if show_graph: plt.show()
+
   return theta_matrix
