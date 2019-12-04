@@ -1,5 +1,5 @@
 #Ignore music files folder
-music/
+music
 
 #Ignore compiled python files
 *.pyc
