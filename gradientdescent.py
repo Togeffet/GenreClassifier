@@ -1,11 +1,15 @@
 import numpy as np
 from g import g
+import matplotlib.pyplot as plt
 
 
 def gradient_descent(X, Y, alpha):
   print("running gradient descent")
+
   X = np.array(X)
   Y = np.array(Y)
+
+  Y = Y.reshape(Y.shape[0], 1)
   
   samples, features = X.shape
   X = np.hstack((np.ones((samples, 1)), X))
@@ -14,30 +18,30 @@ def gradient_descent(X, Y, alpha):
 
   theta_matrix = np.random.rand(features, 1)
   derivative_matrix = np.ones((features, 1))
-
   
   iteration = 1
   converged = False
   while not converged:
-    for x in derivative_matrix:
-      # If the derivative has converged
-      if abs(x) <= 0.001:
-        converged = True
+    if all (abs(i) <= 0.01 for i in derivative_matrix):
+      converged = True
 
     h_theta = g(np.matmul(X, theta_matrix))
 
     for i in range(0, features):
-      kill, me = h_theta.shape
-      untransposed = np.subtract(h_theta, Y.reshape(kill, 1))
-      transposed = np.transpose(untransposed)
-
-      derivative_matrix[i] = (1 / float(samples)) * np.matmul(transposed, X[:,i])
+      derivative_matrix[i] = (1 / float(samples)) * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
 
     theta_matrix = theta_matrix - (alpha * derivative_matrix)
+  
+    error = 1 / (2 * samples) * np.sum(((h_theta) - Y) ** 2);
+
+    plt.plot(iteration, error, 'o', color="black");
     
+
     iteration += 1
 
     if converged:
       break
   
+  print("Gradient descent took " + str(iteration) + " iterations to converge")
+  plt.show()
   return theta_matrix
