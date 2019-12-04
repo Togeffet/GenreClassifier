@@ -10,7 +10,7 @@ if not os.path.exists("train_features.npy"):
 
 X_and_y_matrix = createdata.read_feature_data("train_features.npy")
 
-theta_matrix = gd.gradient_descent(X_and_y_matrix[:, 1:], X_and_y_matrix[:, 0], 0.7)
+theta_matrix = gd.gradient_descent(X_and_y_matrix[:, 1:], X_and_y_matrix[:, 0], 0.07)
 print(theta_matrix)
 
 print(theta_matrix.shape)

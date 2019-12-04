@@ -27,7 +27,11 @@ def gradient_descent(X, Y, alpha):
     h_theta = g(np.matmul(X, theta_matrix))
 
     for i in range(0, features):
-      derivative_matrix[i] = [1 / float(samples)] * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
+      kill, me = h_theta.shape
+      untransposed = np.subtract(h_theta, Y.reshape(kill, 1))
+      transposed = np.transpose(untransposed)
+
+      derivative_matrix[i] = (1 / float(samples)) * np.matmul(transposed, X[:,i])
 
     theta_matrix = theta_matrix - (alpha * derivative_matrix)
     
