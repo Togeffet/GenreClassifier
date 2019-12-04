@@ -7,7 +7,7 @@ def read_song_file(path):
     data, sample_rate = librosa.load(path)
 
     total_samples = np.size(data)
-    total_seconds = total_samples / sample_rate
+    #total_seconds = total_samples / sample_rate
 
     middle_samples = total_samples / 2
 
@@ -17,7 +17,7 @@ def read_song_file(path):
     to_pos = middle_samples + (15 * sample_rate)
 
     #Extract data 
-    middle_data = data[from_pos:to_pos]
+    middle_data = data[int(from_pos):int(to_pos)]
 
     #Calculate the zero crossing rate
     zero_crossings = librosa.zero_crossings(y=middle_data, pad=False)
@@ -88,9 +88,6 @@ def convert_to_features(infile, outfile):
             print("\tGetting features for " + full_name)
 
             if full_name.endswith(".mp3"):
-                
-
-                print("\tGetting features for " + full_name)
 
                 #Get features and insert them at the given row in the array
                 data_matrix[entry_row] = np.insert(read_song_file(full_name), 0, class_dict[directory])
