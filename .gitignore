@@ -1,1 +1,8 @@
+#Ignore music files folder
+*.mp3
+*.wav
+*.flac
+*.ogg
+
+#Ignore compiled python files
 *.pyc
