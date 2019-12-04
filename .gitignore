@@ -6,3 +6,6 @@ music
 
 #Ignore vscode files
 /.vscode
+
+#Ignore awful mac files
+.DS_Store
