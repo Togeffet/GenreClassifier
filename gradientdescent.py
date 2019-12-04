@@ -10,8 +10,18 @@ def gradient_descent(X, Y, alpha):
   Y = np.array(Y)
 
   Y = Y.reshape(Y.shape[0], 1)
-  
+
   samples, features = X.shape
+
+  # normalize X and Y values
+  for i in range (0, features):
+    X[:,i] = np.subtract(X[:,i], min(X[:,i]))
+    X[:,i] = np.divide(X[:,i], max(X[:,i]))
+    
+  Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
+  Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
+  
+  
   X = np.hstack((np.ones((samples, 1)), X))
 
   samples, features = X.shape
@@ -32,9 +42,9 @@ def gradient_descent(X, Y, alpha):
 
     theta_matrix = theta_matrix - (alpha * derivative_matrix)
   
-    error = 1 / (2 * samples) * np.sum(((h_theta) - Y) ** 2);
+    error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, Y), 2));
 
-    plt.plot(iteration, error, 'o', color="black");
+    plt.plot(iteration, error, 'o', color="black")
     
 
     iteration += 1
