@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def gradient_descent(X, Y, alpha, show_graph):
-  print("running gradient descent")
+  print("Running gradient descent...")
 
   X = np.array(X)
   Y = np.array(Y)
@@ -13,46 +13,57 @@ def gradient_descent(X, Y, alpha, show_graph):
 
   samples, features = X.shape
 
+  print("Normalizing input features...")
 
   # normalize X and Y values
   # This totally changes the output, so there could be something wrong with this
   for i in range (0, features):
-    X[:,i] = np.subtract(X[:,i], min(X[:,i]))
-    X[:,i] = np.divide(X[:,i], max(X[:,i]))
-    
-  Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
-  Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
+    xavg = np.average(X[:,i])
+    xptp = np.ptp(X[:,i]) #ptp = "peak to peak", used to get the range of values
+    X[:,i] = np.subtract(X[:,i], xavg)
+    X[:,i] = np.divide(X[:,i], xptp)
+
+  print("Features normalized.")
+
+  # Normalization for output shouldn't be needed, but is included here
+  # for quick testing. 
+  #Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
+  #Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
   
-  
+  # Add extra 1s column to the front
   X = np.hstack((np.ones((samples, 1)), X))
 
+  # Get the number of samples and features again after adding the column
   samples, features = X.shape
 
+  # Initialize theta randomly and a matrix for storing the gradient
   theta_matrix = np.random.rand(features, 1)
   derivative_matrix = np.ones((features, 1))
   
+  # Start gradient descent loop
   iteration = 1
   converged = False
   while not converged:
-    if all (abs(i) <= 0.001 for i in derivative_matrix):
-      converged = True
 
-    h_theta = g(np.matmul(X, theta_matrix))
+    h_theta = np.matmul(X, theta_matrix)
 
     for i in range(0, features):
-      helpme = np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
-      helpme2 = (1 / float(samples))
-      derivative_matrix[i] = (1 / float(samples)) * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
+      derivative_matrix[i] = (1 / float(samples)) * np.sum( np.multiply(h_theta - Y, np.reshape(X[:,i], (samples, 1))) )
+
+    print(derivative_matrix)
 
     theta_matrix = theta_matrix - (alpha * derivative_matrix)
-  
-    error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, Y), 2));
+
+    error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, Y), 2))
 
     if show_graph:
       plt.plot(iteration, error, 'o', color="black")
-    
-
+  
     iteration += 1
+
+    #Check for convergence
+    if all (abs(i) <= 0.001 for i in derivative_matrix[1:]):
+      converged = True
 
   
   print("Gradient descent took " + str(iteration) + " iterations to converge")
