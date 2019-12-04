@@ -39,6 +39,11 @@ def gradient_descent(X, Y, alpha):
 
     iteration += 1
 
+    for x in derivative_matrix:
+      # If the derivative has converged
+      if abs(x) <= 0.001:
+        converged = True
+
     if converged:
       break
   
