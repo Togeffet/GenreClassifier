@@ -18,7 +18,7 @@ test_data = createdata.read_feature_data("test_features.npy")
 num_train_samples = train_data.shape[0]
 num_test_samples = test_data.shape[0]
 
-theta_matrix = gd.gradient_descent(train_data[:, 1:], train_data[:, 0], 0.07)
+theta_matrix = gd.gradient_descent(train_data[:, 1:], train_data[:, 0], 0.001)
 
 test_X = test_data[:, 1:]
 test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )

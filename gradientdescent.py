@@ -13,13 +13,14 @@ def gradient_descent(X, Y, alpha):
 
   samples, features = X.shape
 
+
   # normalize X and Y values
-  for i in range (0, features):
-    X[:,i] = np.subtract(X[:,i], min(X[:,i]))
-    X[:,i] = np.divide(X[:,i], max(X[:,i]))
+  # for i in range (0, features):
+  #   X[:,i] = np.subtract(X[:,i], min(X[:,i]))
+  #   X[:,i] = np.divide(X[:,i], max(X[:,i]))
     
-  Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
-  Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
+  # Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
+  # Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
   
   
   X = np.hstack((np.ones((samples, 1)), X))
@@ -32,12 +33,14 @@ def gradient_descent(X, Y, alpha):
   iteration = 1
   converged = False
   while not converged:
-    if all (abs(i) <= 0.01 for i in derivative_matrix):
+    if all (abs(i) <= 0.001 for i in derivative_matrix):
       converged = True
 
     h_theta = g(np.matmul(X, theta_matrix))
 
     for i in range(0, features):
+      helpme = np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
+      helpme2 = (1 / float(samples))
       derivative_matrix[i] = (1 / float(samples)) * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
 
     theta_matrix = theta_matrix - (alpha * derivative_matrix)
@@ -49,13 +52,6 @@ def gradient_descent(X, Y, alpha):
 
     iteration += 1
 
-    for x in derivative_matrix:
-      # If the derivative has converged
-      if abs(x) <= 0.001:
-        converged = True
-
-    if converged:
-      break
   
   print("Gradient descent took " + str(iteration) + " iterations to converge")
   plt.show()
