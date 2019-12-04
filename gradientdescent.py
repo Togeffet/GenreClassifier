@@ -19,16 +19,12 @@ def gradient_descent(X, Y, alpha):
   iteration = 1
   converged = False
   while not converged:
-    for x in derivative_matrix:
-      # If the derivative has converged
-      if abs(x) <= 0.001:
-        converged = True
 
     h_theta = g(np.matmul(X, theta_matrix))
 
     for i in range(0, features):
-      kill, me = h_theta.shape
-      untransposed = np.subtract(h_theta, Y.reshape(kill, 1))
+      dim, extra = h_theta.shape
+      untransposed = np.subtract(h_theta, Y.reshape(dim, 1))
       transposed = np.transpose(untransposed)
 
       derivative_matrix[i] = (1 / float(samples)) * np.matmul(transposed, X[:,i])
@@ -36,6 +32,11 @@ def gradient_descent(X, Y, alpha):
     theta_matrix = theta_matrix - (alpha * derivative_matrix)
     
     iteration += 1
+
+    for x in derivative_matrix:
+      # If the derivative has converged
+      if abs(x) <= 0.001:
+        converged = True
 
     if converged:
       break
