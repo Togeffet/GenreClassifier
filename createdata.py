@@ -2,6 +2,14 @@ import librosa
 import os
 import numpy as np
 
+def get_num_genres():
+    genres = 0
+    dirs = os.listdir("music/train")
+    for d in dirs:
+        if os.path.isdir("music/train/" + d):
+            genres += 1
+    return genres
+
 def read_song_file(path):
 
     data, sample_rate = librosa.load(path)
