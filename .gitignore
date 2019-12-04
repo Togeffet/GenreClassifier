@@ -3,6 +3,7 @@ music
 
 #Ignore compiled python files
 *.pyc
+__pycache__
 
 #Ignore vscode files
 /.vscode
