@@ -4,6 +4,8 @@ import os
 import numpy as np
 from g import g
 from printgenreforint import genretostring
+import tensorflow as tf
+from tensorflow import keras
 
 # Get rid of the pesky warning for us lowly python 2 users
 
@@ -85,4 +87,10 @@ for i in range(0, test_X.shape[0]):
   # prediction = g(prediction)
 
 print("Correct ratio " + str(correct_guesses) + "/" + str(total_guesses) + " (" + str((correct_guesses / float(total_guesses)) * 100) + "%)")
-print("Correct prediction within the top 3 genres " + str(top_3_guesses) + " times (" + str((top_3_guesses / float(total_guesses)) * 100) + "%)") 
+print("Correct prediction within the top 3 genres " + str(top_3_guesses) + " times (" + str((top_3_guesses / float(total_guesses)) * 100) + "%)")
+
+#Train a model using tensorflow data
+tf_train_dataset = tf.data.Dataset.from_tensor_slices(train_data)
+tf_test_dataset = tf.data.Dataset.from_tensor_slices(test_data)
+
+print("hello")
