@@ -36,12 +36,21 @@ trained_models = np.load("trained_models.npy")
 
 #Format test data into samples and expected results
 test_X = test_data[:, 1:]
-test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
 test_Y = test_data[:, 0]
 
 #Get relevant variables
 features, samples = test_data.shape
 num_genres = int(np.ptp(test_Y))
+
+#Normalize test_X input data
+for i in range (0, features):
+  xavg = np.average(test_X[:,i])
+  xptp = np.ptp(test_X[:,i]) #ptp = "peak to peak", used to get the range of values
+  test_X[:,i] = np.subtract(test_X[:,i], xavg)
+  test_X[:,i] = np.divide(test_X[:,i], xptp)
+
+#Add 1s column
+test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
 
 #Create an array to store our estimates for the 
 estimates = np.ndarray((num_genres, samples))
