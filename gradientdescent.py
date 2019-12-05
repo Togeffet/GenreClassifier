@@ -2,6 +2,7 @@ import createdata
 import numpy as np
 from g import g
 import matplotlib.pyplot as plt
+from printgenreforint import genretostring
 
 
 def gradient_descent(X, Y, alpha, show_graph):
@@ -43,7 +44,7 @@ def gradient_descent(X, Y, alpha, show_graph):
   trained_models = np.ndarray( (features, num_genres) )
 
   for k in range(0, num_genres):
-    print("Creating model for genre #" + str(k))
+    print("Creating model for " + genretostring(k))
 
     # Create the Y matrix for identifying genre i
     #currentY = np.subtract(Y, i - 1)
@@ -61,8 +62,6 @@ def gradient_descent(X, Y, alpha, show_graph):
     converged = False
     while not converged:
 
-      if iteration % 100 == 0: print("Iteration number " + str(iteration))
-
       h_theta = g(np.matmul(X, theta_matrix))
 
       for i in range(0, features):
@@ -71,7 +70,7 @@ def gradient_descent(X, Y, alpha, show_graph):
         # Just keeping this here, gives the same result as above just doing 
         # print(1 / float(samples)) * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
 
-      print(derivative_matrix)
+      print("Genre " + genretostring + ", Iteration: " + str(iteration) + ", max derivative: " + str(np.max(derivative_matrix)))
 
       theta_matrix = theta_matrix - (alpha * derivative_matrix)
 

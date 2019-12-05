@@ -1,19 +1,19 @@
 def genretostring (num):
-  if num == 1:
+  if num == 0:
     return 'alternative'
-  elif num == 2:
+  elif num == 1:
     return 'classical'
-  elif num == 3:
+  elif num == 2:
     return 'country'
-  elif num == 4:
+  elif num == 3:
     return 'electronic'
-  elif num == 5:
+  elif num == 4:
     return 'jazz'
-  elif num == 6:
+  elif num == 5:
     return 'pop'
-  elif num == 7:
+  elif num == 6:
     return 'rap'
-  elif num == 8:
+  elif num == 7:
     return 'rock'
   else:
     return 'No genre exists for param ' + str(num)

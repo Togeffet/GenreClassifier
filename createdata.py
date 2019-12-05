@@ -73,7 +73,7 @@ def convert_to_features(infile, outfile):
             song_files = os.listdir(infile + "/" + directory)
             for sfile in song_files:
                 if sfile.endswith(".mp3"):
-                    num_songs += len(song_files)
+                    num_songs += 1
 
     #Create matrix
     data_matrix = np.empty([num_songs, 43929])

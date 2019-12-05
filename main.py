@@ -28,7 +28,7 @@ num_test_samples = test_data.shape[0]
 
 #Check to see if the models have already been created
 if not os.path.exists("trained_models.npy"):
-  trained_models = gd.gradient_descent(train_data[:, 1:], train_data[:, 0], 2, True)
+  trained_models = gd.gradient_descent(train_data[:, 1:], train_data[:, 0], 1, True)
   np.save("trained_models", trained_models)
 
 #Load trained models
@@ -58,7 +58,6 @@ for i in range(0, test_X.shape[0]):
   predicted_genre_matrix = np.column_stack((np.arange(prediction.size), prediction))
 
   predicted_genre_matrix = predicted_genre_matrix[predicted_genre_matrix[:,1].argsort()][::-1]
-  predicted_genre_matrix[:, 0] = np.add(predicted_genre_matrix[:,0], 1)
 
   predicted_genre = predicted_genre_matrix[0, 0]
 
