@@ -42,7 +42,7 @@ def gradient_descent(X, Y, alpha, show_graph):
   for i in range(0, createdata.get_num_genres()):
 
     # Creat the Y matrix for identifying genre i
-    
+
 
     # Initialize theta randomly and a matrix for storing the gradient
     theta_matrix = np.random.rand(features, 1)
@@ -56,7 +56,7 @@ def gradient_descent(X, Y, alpha, show_graph):
       h_theta = g(np.matmul(X, theta_matrix))
 
       for i in range(0, features):
-        derivative_matrix[i] = (1 / float(samples)) * np.sum( np.multiply(h_theta - Y, np.reshape(X[:,i], (samples, 1))) )
+        derivative_matrix[i] = (1 / float(samples)) * np.sum( np.multiply(h_theta - currentY, np.reshape(X[:,i], (samples, 1))) )
 
         # Just keeping this here, gives the same result as above just doing 
         # print(1 / float(samples)) * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
@@ -65,7 +65,7 @@ def gradient_descent(X, Y, alpha, show_graph):
 
       theta_matrix = theta_matrix - (alpha * derivative_matrix)
 
-      error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, Y), 2))
+      error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, currentY), 2))
 
       if show_graph:
         plt.plot(iteration, error, 'o', color="black")
@@ -76,6 +76,7 @@ def gradient_descent(X, Y, alpha, show_graph):
       if all (abs(i) <= 0.001 for i in derivative_matrix[1:]):
         converged = True
 
+    trained_models[i,:] = theta_matrix
   
   print("Gradient descent took " + str(iteration) + " iterations to converge")
 
