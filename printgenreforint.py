@@ -1,4 +1,4 @@
-def printgenreforint (num):
+def genretostring (num):
   if num == 1:
     return 'alternative'
   elif num == 2:
