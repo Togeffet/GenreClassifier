@@ -41,8 +41,16 @@ def gradient_descent(X, Y, alpha, show_graph):
 
   for i in range(0, createdata.get_num_genres()):
 
-    # Creat the Y matrix for identifying genre i
-    
+    # Create the Y matrix for identifying genre i
+    #currentY = np.subtract(Y, i - 1)
+
+    current_genre_indicies = Y == i
+    currentY = np.zeros(Y.shape)
+    currentY[current_genre_indicies]  = 1
+
+
+
+
 
     # Initialize theta randomly and a matrix for storing the gradient
     theta_matrix = np.random.rand(features, 1)
