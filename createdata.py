@@ -4,6 +4,8 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import librosa
 import os
 import numpy as np
+import threading
+from printgenreforint import genretostring
 
 def read_song_file(path):
 
@@ -72,37 +74,58 @@ def convert_to_features(indir, outfile):
         if(os.path.isdir(indir + "/" + directory)):
             song_files = os.listdir(indir + "/" + directory)
             for sfile in song_files:
-                if sfile.endswith(".mp3"):
+                if sfile.lower().endswith(".mp3"):
                     num_songs += 1
 
     #Create matrix
     data_matrix = np.empty([num_songs, 43929])
 
     #Start converting the files
-    entry_row = 0
+    starting_row = 0
+    num_songs = 0
+    thread_num = 0
+    threads = []
     for directory in dirs:
 
         if not os.path.isdir(indir + "/" + directory):
             continue
 
-        #List files in each directory
         song_files = os.listdir(indir + "/" + directory)
-
         for sfile in song_files:
-            #Full name relative to working dir
-            full_name = indir + "/" + directory + "/" + sfile
+            if sfile.lower().endswith(".mp3"):
+                num_songs += 1
 
-            if full_name.endswith(".mp3"):
-                print("\tGetting features for " + full_name)
+        thread = threading.Thread(target=convert_songs_in_directory, args=(indir, directory, class_dict, starting_row, data_matrix,))
+        starting_row = num_songs
 
-                #Get features and insert them at the given row in the array
-                data_matrix[entry_row] = np.insert(read_song_file(full_name), 0, class_dict[directory])
+        thread.start()
+        threads.append(thread)
 
-                #Increment the insert index
-                entry_row += 1
-    
+
+    for t in threads:
+        t.join()
+
+
     np.save(outfile, data_matrix)
     return
 
 def read_feature_data(path):
     return np.load(path)
+
+def convert_songs_in_directory (indir, directory, class_dict, entry_row, data_matrix):
+    
+    #List files in each directory
+    song_files = os.listdir(indir + "/" + directory)
+
+    for sfile in song_files:
+         #Full name relative to working dir
+        full_name = indir + "/" + directory + "/" + sfile
+
+        if full_name.lower().endswith(".mp3"):
+            print("\tGetting features for " + full_name)
+
+            #Get features and insert them at the given row in the array
+            data_matrix[entry_row] = np.insert(read_song_file(full_name), 0, class_dict[directory])
+
+            #Increment the insert index
+            entry_row += 1
