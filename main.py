@@ -3,6 +3,7 @@ import gradientdescent as gd
 import os
 import numpy as np
 from g import g
+from printgenreforint import printgenreforint
 
 # Get rid of the pesky warning for us lowly python 2 users
 
@@ -57,26 +58,28 @@ for i in range(0, test_X.shape[0]):
   predicted_genre_matrix = np.column_stack((np.arange(prediction.size), prediction))
 
   predicted_genre_matrix = predicted_genre_matrix[predicted_genre_matrix[:,1].argsort()][::-1]
+  predicted_genre_matrix[:, 0] = np.add(predicted_genre_matrix[:,0], 1)
 
   predicted_genre = predicted_genre_matrix[0, 0]
 
   top_3_genres = predicted_genre_matrix[0:3,0]
 
   if predicted_genre == test_Y[i]:
-    print("Correctly predicted song " + str(i) + " with genre " + str(predicted_genre) + "!")
+    print("Correctly predicted song " + str(i) + " with genre " + printgenreforint(predicted_genre) + "!")
 
     correct_guesses += 1
     top_3_guesses += 1
 
   elif np.isin(test_Y[i], top_3_genres):
     print("Correct genre within top 3 predictions! Song " + str(i) + ", correct genre " + str(test_Y[i]) + ", guessed "),
-    print( ', '.join(map(str, top_3_genres)) )
+    for num in top_3_genres:
+      print (printgenreforint(num) + ", "),
 
+    print('')
     top_3_guesses += 1
 
   else:
-    print("Incorrectly predicted song " + str(i) + ", correct genre " + str(test_Y[i]) + ", guessed " + str(predicted_genre))
-
+    print("Incorrectly predicted song " + str(i) + ", correct genre " + printgenreforint(test_Y[i]) + ", guessed " + printgenreforint(predicted_genre))
   
   total_guesses += 1
 
