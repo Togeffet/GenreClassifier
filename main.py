@@ -2,6 +2,7 @@ import createdata
 import gradientdescent as gd
 import os
 import numpy as np
+from g import g
 
 # Get rid of the pesky warning for us lowly python 2 users
 
@@ -44,12 +45,26 @@ num_genres = int(np.ptp(test_Y))
 #Create an array to store our estimates for the 
 estimates = np.ndarray((num_genres, samples))
 
+total_guesses = 0
+correct_guesses = 0
 for i in range(0, test_X.shape[0]):
   sample = test_X[i]
   #sample = np.reshape(sample, (features, 1))
 
   prediction = np.matmul(np.transpose(trained_models), np.reshape(sample, (sample.shape[0], 1)))
 
-  estimate = np.matmul(np.transpose(trained_models), sample)
-  estimates[i] = estimate
-  print("Estimate was {}. Correct value is {}".format(estimates[i], test_Y[i]))
+  predicted_genre = np.argmax(prediction, axis=0)
+  if predicted_genre == test_Y[i]:
+    print("Correctly predicted the genre (" + str(predicted_genre) + ") for song " + str(i))
+
+    total_guesses += 1
+    correct_guesses += 1
+    
+  else:
+    print("Incorrect :( Correct genre was " + str(test_Y[i]) + " and we guessed " + str(predicted_genre))
+
+    total_guesses += 1
+
+  # prediction = g(prediction)
+
+print("We guessed " + str(correct_guesses) + " correctly out of " + str(total_guesses))
