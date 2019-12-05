@@ -47,27 +47,40 @@ estimates = np.ndarray((num_genres, samples))
 
 total_guesses = 0
 correct_guesses = 0
+top_3_guesses = 0
 for i in range(0, test_X.shape[0]):
   sample = test_X[i]
   #sample = np.reshape(sample, (features, 1))
 
   prediction = np.matmul(np.transpose(trained_models), np.reshape(sample, (sample.shape[0], 1)))
 
-  predicted_genre_matrix = np.sort(prediction, axis=0)[::-1]
-  predicted_genre = np.argmax(prediction, axis=0)
+  predicted_genre_matrix = np.column_stack((np.arange(prediction.size), prediction))
 
+  predicted_genre_matrix = predicted_genre_matrix[predicted_genre_matrix[:,1].argsort()][::-1]
+
+  predicted_genre = predicted_genre_matrix[0, 0]
+
+  top_3_genres = predicted_genre_matrix[0:3,0]
 
   if predicted_genre == test_Y[i]:
-    print("Correctly predicted the genre (" + str(predicted_genre) + ") for song " + str(i))
+    print("Correctly predicted song " + str(i) + " with genre " + str(predicted_genre) + "!")
 
-    total_guesses += 1
     correct_guesses += 1
+    top_3_guesses += 1
+
+  elif np.isin(test_Y[i], top_3_genres):
+    print("Correct genre within top 3 predictions! Song " + str(i) + ", correct genre " + str(test_Y[i]) + ", guessed "),
+    print( ', '.join(map(str, top_3_genres)) )
+
+    top_3_guesses += 1
 
   else:
-    print("Incorrect :( Correct genre was " + str(test_Y[i]) + " and we guessed " + str(predicted_genre))
+    print("Incorrectly predicted song " + str(i) + ", correct genre " + str(test_Y[i]) + ", guessed " + str(predicted_genre))
 
-    total_guesses += 1
+  
+  total_guesses += 1
 
   # prediction = g(prediction)
 
-print("We guessed " + str(correct_guesses) + " correctly out of " + str(total_guesses))
+print("Correct ratio " + str(correct_guesses) + "/" + str(total_guesses) + " (" + str((correct_guesses / float(total_guesses)) * 100) + "%)")
+print("Correct prediction within the top 3 genres " + str(top_3_guesses) + " times (" + str((top_3_guesses / float(total_guesses)) * 100) + "%)") 
