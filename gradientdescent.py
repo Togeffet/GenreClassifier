@@ -45,10 +45,10 @@ def gradient_descent(X, Y, alpha, show_graph):
   converged = False
   while not converged:
 
-    h_theta = np.matmul(X, theta_matrix)
+    h_theta = g(np.matmul(X, theta_matrix))
 
     for i in range(0, features):
-      print(1 / float(samples)) * np.sum( np.multiply(h_theta - Y, np.reshape(X[:,i], (samples, 1))) )
+      derivative_matrix[i] = (1 / float(samples)) * np.sum( np.multiply(h_theta - Y, np.reshape(X[:,i], (samples, 1))) )
 
       # Just keeping this here, gives the same result as above just doing 
       # print(1 / float(samples)) * np.matmul(np.transpose(np.subtract(h_theta, Y)), X[:,i])
