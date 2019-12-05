@@ -40,6 +40,7 @@ def gradient_descent(X, Y, alpha, show_graph):
   trained_models = np.ndarray((features, createdata.get_num_genres()))
 
   for i in range(0, createdata.get_num_genres()):
+    print("Creating model for genre #" + str(k))
 
     # Create the Y matrix for identifying genre i
     #currentY = np.subtract(Y, i - 1)
@@ -49,17 +50,17 @@ def gradient_descent(X, Y, alpha, show_graph):
     currentY[current_genre_indicies]  = 1
 
 
-
-
-
     # Initialize theta randomly and a matrix for storing the gradient
     theta_matrix = np.random.rand(features, 1)
     derivative_matrix = np.ones((features, 1))
-    
+
+
     # Start gradient descent loop
     iteration = 1
     converged = False
     while not converged:
+
+      if iteration % 100 == 0: print("Iteration number " + str(iteration))
 
       h_theta = g(np.matmul(X, theta_matrix))
 
