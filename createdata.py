@@ -48,12 +48,12 @@ def read_song_file(path):
 
     return end_data
 
-def convert_to_features(infile, outfile):
+def convert_to_features(indir, outfile):
 
-    print("Converting files in {} to feature data file.".format(infile))
+    print("Converting files in {} to feature data file.".format(indir))
 
     #Get directory list
-    dirs = os.listdir(infile)
+    dirs = os.listdir(indir)
     dirs.sort()
 
     class_dict = dict()
@@ -61,7 +61,7 @@ def convert_to_features(infile, outfile):
 
     #Create a dict used to map genre names to integer values
     for directory in dirs:
-        if os.path.isdir(infile + "/" + directory):
+        if os.path.isdir(indir + "/" + directory):
             print("\tFound directory for {} genre".format(directory))
             class_dict[directory] = id_counter
             id_counter += 1
@@ -69,11 +69,11 @@ def convert_to_features(infile, outfile):
     #Count the total number of files (used to set numpy array size)
     num_songs = 0
     for directory in dirs:
-        if(os.path.isdir(infile + "/" + directory)):
-            song_files = os.listdir(infile + "/" + directory)
+        if(os.path.isdir(indir + "/" + directory)):
+            song_files = os.listdir(indir + "/" + directory)
             for sfile in song_files:
                 if sfile.endswith(".mp3"):
-                    num_songs += len(song_files)
+                    num_songs += 1
 
     #Create matrix
     data_matrix = np.empty([num_songs, 43929])
@@ -82,15 +82,15 @@ def convert_to_features(infile, outfile):
     entry_row = 0
     for directory in dirs:
 
-        if not os.path.isdir(infile + "/" + directory):
+        if not os.path.isdir(indir + "/" + directory):
             continue
 
         #List files in each directory
-        song_files = os.listdir(infile + "/" + directory)
+        song_files = os.listdir(indir + "/" + directory)
 
         for sfile in song_files:
             #Full name relative to working dir
-            full_name = infile + "/" + directory + "/" + sfile
+            full_name = indir + "/" + directory + "/" + sfile
 
             if full_name.endswith(".mp3"):
                 print("\tGetting features for " + full_name)
