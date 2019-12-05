@@ -5,14 +5,6 @@ import librosa
 import os
 import numpy as np
 
-def get_num_genres():
-    genres = 0
-    dirs = os.listdir("music/train")
-    for d in dirs:
-        if os.path.isdir("music/train/" + d):
-            genres += 1
-    return genres
-
 def read_song_file(path):
 
     data, sample_rate = librosa.load(path)
@@ -69,16 +61,19 @@ def convert_to_features(infile, outfile):
 
     #Create a dict used to map genre names to integer values
     for directory in dirs:
-        print("\tFound directory for {} genre".format(directory))
-        class_dict[directory] = id_counter
-        id_counter += 1
+        if os.path.isdir(infile + "/" + directory):
+            print("\tFound directory for {} genre".format(directory))
+            class_dict[directory] = id_counter
+            id_counter += 1
 
     #Count the total number of files (used to set numpy array size)
     num_songs = 0
     for directory in dirs:
         if(os.path.isdir(infile + "/" + directory)):
             song_files = os.listdir(infile + "/" + directory)
-            num_songs += len(song_files)
+            for sfile in song_files:
+                if sfile.endswith(".mp3"):
+                    num_songs += len(song_files)
 
     #Create matrix
     data_matrix = np.empty([num_songs, 43929])
