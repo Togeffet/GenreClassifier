@@ -39,16 +39,16 @@ test_Y = test_data[:, 0]
 
 #Get relevant variables
 features, samples = test_data.shape
-num_genres = int(np.ptp(test_Y, axis=0)[0]) + 1
+num_genres = int(np.ptp(test_Y))
 
 #Create an array to store our estimates for the 
 estimates = np.ndarray((num_genres, samples))
 
 for i in range(0, test_X.shape[0]):
-  sample = test_X[i,:]
-  sample = np.reshape(sample, (features, 1))
+  sample = test_X[i]
+  #sample = np.reshape(sample, (features, 1))
 
-  prediction = trained_models * np.transpose(sample)
+  prediction = np.matmul(np.transpose(trained_models), np.reshape(sample, (sample.shape[0], 1)))
 
   estimate = np.matmul(np.transpose(trained_models), sample)
   estimates[i] = estimate

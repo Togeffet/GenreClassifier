@@ -38,7 +38,7 @@ def gradient_descent(X, Y, alpha, show_graph):
   samples, features = X.shape
 
   #Get the number of genres
-  num_genres = int(np.ptp(Y, axis=0)[0]) + 1
+  num_genres = int(np.ptp(Y, axis=0)[0])
 
   trained_models = np.ndarray( (features, num_genres) )
 
