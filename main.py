@@ -3,6 +3,8 @@ import gradientdescent as gd
 import os
 import numpy as np
 
+# Get rid of the pesky warning for us lowly python 2 users
+
 train_dir = "music/train"
 test_dir = "music/test"
 

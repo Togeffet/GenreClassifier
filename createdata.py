@@ -1,3 +1,6 @@
+import warnings 
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import librosa
 import os
 import numpy as np
