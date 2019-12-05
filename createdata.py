@@ -129,3 +129,5 @@ def convert_songs_in_directory (indir, directory, class_dict, entry_row, data_ma
 
             #Increment the insert index
             entry_row += 1
+
+    return
