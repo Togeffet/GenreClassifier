@@ -53,13 +53,16 @@ for i in range(0, test_X.shape[0]):
 
   prediction = np.matmul(np.transpose(trained_models), np.reshape(sample, (sample.shape[0], 1)))
 
+  predicted_genre_matrix = np.sort(prediction, axis=0)[::-1]
   predicted_genre = np.argmax(prediction, axis=0)
+
+
   if predicted_genre == test_Y[i]:
     print("Correctly predicted the genre (" + str(predicted_genre) + ") for song " + str(i))
 
     total_guesses += 1
     correct_guesses += 1
-    
+
   else:
     print("Incorrect :( Correct genre was " + str(test_Y[i]) + " and we guessed " + str(predicted_genre))
 

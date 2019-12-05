@@ -78,7 +78,7 @@ def gradient_descent(X, Y, alpha, show_graph):
       error = 1 / float(2 * samples) * np.sum(np.power(np.subtract(h_theta, currentY), 2))
 
       if show_graph:
-        plt.plot(iteration, error, 'o', color=(i/num_genres, (num_genres-i)/num_genres, 0.5, 1))
+        plt.plot(iteration, error, 'o', color=(1/float(i+1), 1/(features - i), 0.5, 1))
     
       iteration += 1
 
