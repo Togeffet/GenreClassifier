@@ -39,7 +39,7 @@ def gradient_descent(X, Y, alpha, show_graph):
   samples, features = X.shape
 
   #Get the number of genres
-  num_genres = int(np.ptp(Y, axis=0)[0])
+  num_genres = int(np.ptp(Y, axis=0)[0]) + 1
 
   trained_models = np.ndarray( (features, num_genres) )
 
@@ -95,4 +95,4 @@ def train_class_model(genre_id, features, samples, X, Y, alpha, trained_models):
     if all (abs(i) <= 0.001 for i in derivative_matrix[1:]):
       converged = True
 
-  trained_models[:,k] = np.reshape(theta_matrix, (features))
+  trained_models[:,genre_id] = np.reshape(theta_matrix, (features))

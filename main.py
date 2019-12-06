@@ -42,7 +42,7 @@ test_Y = test_data[:, 0]
 
 #Get relevant variables
 features, samples = test_data.shape
-num_genres = int(np.ptp(test_Y))
+num_genres = int(np.ptp(test_Y)) + 1
 
 #Normalize test_X input data
 for i in range (0, features):
