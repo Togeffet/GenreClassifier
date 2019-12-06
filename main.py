@@ -127,11 +127,11 @@ model = keras.Sequential([
   keras.layers.Dense(8, activation='softmax')
 ])
 
-model.compile(optimizer='adam',
+model.compile(optimizer=keras.optimizers.Adadelta(learning_rate=0.02, rho=1.5),
               loss='sparse_categorical_crossentropy', 
               metrics=['accuracy'])
 
-model.fit(train_X, train_Y, epochs=10)
+model.fit(train_X, train_Y, epochs=100)
 
 test_loss, test_acc = model.evaluate(test_X, test_Y, verbose=2)
 print("\nTest accuracy:", test_acc)
