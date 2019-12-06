@@ -38,12 +38,20 @@ trained_models = np.load("trained_models.npy")
 
 #Format test data into samples and expected results
 test_X = test_data[:, 1:]
-test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
 test_Y = test_data[:, 0]
 
 #Get relevant variables
 features, samples = test_data.shape
 num_genres = int(np.ptp(test_Y))
+
+# normalize X values
+for i in range (0, features):
+  xavg = np.average(test_X[:,i])
+  xptp = np.ptp(test_X[:,i]) #ptp = "peak to peak", used to get the range of values
+  test_X[:,i] = np.subtract(test_X[:,i], xavg)
+  test_X[:,i] = np.divide(test_X[:,i], xptp)
+
+test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
 
 #Create an array to store our estimates for the 
 estimates = np.ndarray((num_genres, samples))
@@ -90,7 +98,34 @@ print("Correct ratio " + str(correct_guesses) + "/" + str(total_guesses) + " (" 
 print("Correct prediction within the top 3 genres " + str(top_3_guesses) + " times (" + str((top_3_guesses / float(total_guesses)) * 100) + "%)")
 
 #Train a model using tensorflow data
-tf_train_dataset = tf.data.Dataset.from_tensor_slices(train_data)
-tf_test_dataset = tf.data.Dataset.from_tensor_slices(test_data)
+#tf_train_dataset = tf.data.Dataset.from_tensor_slices(train_data[:,1:])
+#tf_train_labels = tf.data.Dataset.from_tensor_slices(train_data[:,0])
 
-print("hello")
+#tf_test_dataset = tf.data.Dataset.from_tensor_slices(test_data[:,1:])
+#tf_test_labels = tf.data.Dataset.from_tensor_slices(test_data[:,0])
+
+train_X = train_data[:,1:]
+train_Y = train_data[:,0]
+
+# normalize X values
+for i in range (0, features):
+  xavg = np.average(train_X[:,i])
+  xptp = np.ptp(train_X[:,i]) #ptp = "peak to peak", used to get the range of values
+  train_X[:,i] = np.subtract(train_X[:,i], xavg)
+  train_X[:,i] = np.divide(train_X[:,i], xptp)
+
+#train_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
+
+model = keras.Sequential([
+  keras.layers.Dense(128, activation='relu'),
+  keras.layers.Dense(64, activation='relu'),
+  keras.layers.Dense(16, activation='relu'),
+  keras.layers.Dense(8, activation='softmax')
+])
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy', 
+              metrics=['accuracy'])
+
+model.fit(train_X, train_Y, epochs=10)
+
