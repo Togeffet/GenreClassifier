@@ -63,8 +63,6 @@ for i in range (0, features):
   test_X[:,i] = np.subtract(test_X[:,i], xavg)
   test_X[:,i] = np.divide(test_X[:,i], xptp)
 
-test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
-
 #Create an array to store our estimates for the 
 estimates = np.ndarray((num_genres, samples))
 
@@ -141,3 +139,5 @@ model.compile(optimizer='adam',
 
 model.fit(train_X, train_Y, epochs=10)
 
+test_loss, test_acc = model.evaluate(test_X, test_Y, verbose=2)
+print("\nTest accuracy:", test_acc)
