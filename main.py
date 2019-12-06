@@ -6,6 +6,8 @@ from g import g
 from printgenreforint import genretostring
 
 # Get rid of the pesky warning for us lowly python 2 users
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 train_dir = "music/train"
 test_dir = "music/test"
@@ -44,7 +46,7 @@ num_genres = int(np.ptp(test_Y))
 
 #Normalize test_X input data
 for i in range (0, features):
-  xavg = np.average(test_X[:,i])
+  xavg = np.average(train_data[:,1:][:,i])
   xptp = np.ptp(test_X[:,i]) #ptp = "peak to peak", used to get the range of values
   test_X[:,i] = np.subtract(test_X[:,i], xavg)
   test_X[:,i] = np.divide(test_X[:,i], xptp)
