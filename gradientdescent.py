@@ -17,8 +17,7 @@ def gradient_descent(X, Y, alpha, show_graph):
 
   print("Normalizing input features...")
 
-  # normalize X and Y values
-  # This totally changes the output, so there could be something wrong with this
+  # normalize X values
   for i in range (0, features):
     xavg = np.average(X[:,i])
     xptp = np.ptp(X[:,i]) #ptp = "peak to peak", used to get the range of values
@@ -26,11 +25,6 @@ def gradient_descent(X, Y, alpha, show_graph):
     X[:,i] = np.divide(X[:,i], xptp)
 
   print("Features normalized.")
-
-  # Normalization for output shouldn't be needed, but is included here
-  # for quick testing. 
-  #Y[:,0] = np.subtract(Y[:,0], min(Y[:,0]))
-  #Y[:,0] = np.divide(Y[:,0], max(Y[:,0]))
   
   # Add extra 1s column to the front
   X = np.hstack((np.ones((samples, 1)), X))
