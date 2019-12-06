@@ -56,13 +56,6 @@ for i in range (0, features):
 #Add 1s column
 test_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
 
-# normalize X values
-for i in range (0, features):
-  xavg = np.average(test_X[:,i])
-  xptp = np.ptp(test_X[:,i]) #ptp = "peak to peak", used to get the range of values
-  test_X[:,i] = np.subtract(test_X[:,i], xavg)
-  test_X[:,i] = np.divide(test_X[:,i], xptp)
-
 #Create an array to store our estimates for the 
 estimates = np.ndarray((num_genres, samples))
 
@@ -124,12 +117,13 @@ for i in range (0, features):
   train_X[:,i] = np.subtract(train_X[:,i], xavg)
   train_X[:,i] = np.divide(train_X[:,i], xptp)
 
-#train_X = np.hstack( (np.ones((num_test_samples, 1)), test_X) )
+train_X = np.hstack( (np.ones((train_X.shape[0], 1)), train_X) )
 
 model = keras.Sequential([
   keras.layers.Dense(128, activation='relu'),
   keras.layers.Dense(64, activation='relu'),
   keras.layers.Dense(16, activation='relu'),
+  keras.layers.Dense(12, activation='relu'),
   keras.layers.Dense(8, activation='softmax')
 ])
 
