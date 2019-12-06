@@ -1,19 +1,18 @@
+import os
+
 def genretostring (num):
-  if num == 0:
-    return 'alternative'
-  elif num == 1:
-    return 'classical'
-  elif num == 2:
-    return 'country'
-  elif num == 3:
-    return 'electronic'
-  elif num == 4:
-    return 'jazz'
-  elif num == 5:
-    return 'pop'
-  elif num == 6:
-    return 'rap'
-  elif num == 7:
-    return 'rock'
+  indir = "music/train"
+  #Get directory list
+  dirs = os.listdir(indir)
+
+  for directory in dirs:
+    if not os.path.isdir(indir + "/" + directory):
+      dirs.remove(directory)
+
+
+  dirs.sort()
+
+  if num < dirs.count:
+    return dirs[int(num)]
   else:
-    return 'No genre exists for param ' + str(num)
+    return "Int " + num + " out of genre bounds"

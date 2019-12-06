@@ -135,3 +135,45 @@ model.fit(train_X, train_Y, epochs=100)
 
 test_loss, test_acc = model.evaluate(test_X, test_Y, verbose=2)
 print("\nTest accuracy:", test_acc)
+
+
+
+
+for i in range(0, test_X.shape[0]):
+  sample = test_X[i]
+  #sample = np.reshape(sample, (features, 1))
+  sample = np.transpose(np.reshape(sample, (samples, 1)))
+
+  prediction = model.predict(sample)
+
+  predicted_genre_matrix = np.column_stack((np.arange(prediction[0].size), prediction[0]))
+
+  predicted_genre_matrix = predicted_genre_matrix[predicted_genre_matrix[:,1].argsort()][::-1]
+
+  predicted_genre = predicted_genre_matrix[0, 0]
+
+  top_3_genres = predicted_genre_matrix[0:3,0]
+
+  if test_Y[i] == np.argmax(prediction[0]):
+    print("Correctly predicted song " + str(i) + " with genre " + genretostring(np.argmax(prediction[0])) + "!")
+
+    correct_guesses += 1
+    top_3_guesses += 1
+
+  elif np.isin(test_Y[i], top_3_genres):
+    print("Correct genre within top 3 predictions! Song " + str(i) + ", correct genre " + genretostring(test_Y[i]) + ", guessed "),
+    for num in top_3_genres:
+      print (genretostring(num) + ", "),
+
+    print('')
+    top_3_guesses += 1
+
+  else:
+    print("Incorrectly predicted song " + str(i) + ", correct genre " + genretostring(test_Y[i]) + ", guessed " + genretostring(np.argmax(prediction[0])))
+  
+  total_guesses += 1
+
+  # prediction = g(prediction)
+
+print("Correct ratio " + str(correct_guesses) + "/" + str(total_guesses) + " (" + str((correct_guesses / float(total_guesses)) * 100) + "%)")
+print("Correct prediction within the top 3 genres " + str(top_3_guesses) + "/" + str(total_guesses) + " (" + str((top_3_guesses / float(total_guesses)) * 100) + "%)")
