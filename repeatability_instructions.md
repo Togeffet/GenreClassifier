@@ -8,8 +8,9 @@
 --------------------------------------------------------------------------------
             By Alec Waichunas, Caleb Cassady, and Franklin Fanelli
                     Fall 2019, SIU CS 437 - Dr. Hoxha
-================================================================================```
-%%%%%%%%%%%%%%%%%%%%%%%%%        SUMMARY        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+================================================================================
+```
+# Summary
 
 This program uses machine learning models as a means to predict the genre that
 a song file falls into. 
@@ -23,7 +24,7 @@ trained on the same data as the first model so that comparisons between the
 performance/accuracy of the two models could be made.
 
 
-%%%%%%%%%%%%%%%%%%%%%%        ABOUT THE TASK        %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# About The Task
 
 Musical genre identification is an interesting and difficult task for machine
 learning. For one, songs within a single genre can range across many different
@@ -60,7 +61,7 @@ These features are extracted from the middle 30 seconds of each song to produce
 the feature data.
 
 
-%%%%%%%%%%%%%%%%%%%%%       SOFTWARE REQUIREMENTS        %%%%%%%%%%%%%%%%%%%%%%%
+# Software Requirements
 
 To run this program, the following libraries are required:
 
@@ -79,5 +80,5 @@ To run this program, the following libraries are required:
         Install: 'pip install tensorflow'
 
 
-%%%%%%%%%%%%%%%%%%%%%%       USAGE INSTRUCTIONS        %%%%%%%%%%%%%%%%%%%%%%%%%
+# Usage Instructions
 
