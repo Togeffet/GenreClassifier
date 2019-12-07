@@ -132,7 +132,7 @@ What makes ours special is that this was made by some students who were not-yet 
 ### Original Ideas
 At first, we wrote our own gradient descent and logistic regression algorithms, using what we learned in class. We created trained models containing 8 different gradient-descented-models, that could predict if 1: it was the genre or 0: it wasn’t the genre.
 
-Using these models, we ran them on each We created prediction matrices that were 8 rows by 1 column, containing the percentage of what the models thought of the current song. Then, we checked the max number in this matrix and saw what model had the highest prediction.
+Using these models, we ran them on each song, generating prediction matrices that were 8 rows by 1 column, containing the probability of what the models thought of the current song. Then, we checked the max number in this matrix and saw what model had the highest prediction.
 
 ### Issues
 Doing it this way gave us quite a few issues, usually by guessing the same genre for every song. This could be the fault of a lot of things:
