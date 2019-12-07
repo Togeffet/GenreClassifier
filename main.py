@@ -136,9 +136,6 @@ model.fit(train_X, train_Y, epochs=100)
 test_loss, test_acc = model.evaluate(test_X, test_Y, verbose=2)
 print("\nTest accuracy:", test_acc)
 
-
-
-
 for i in range(0, test_X.shape[0]):
   sample = test_X[i]
   #sample = np.reshape(sample, (features, 1))
