@@ -1,4 +1,5 @@
-```================================================================================
+```
+================================================================================
       _____                        _____ _               _  __ _           
      / ____|                      / ____| |             (_)/ _(_)          
     | |  __  ___ _ __  _ __ ___  | |    | | __ _ ___ ___ _| |_ _  ___ _ __ 
@@ -81,4 +82,75 @@ To run this program, the following libraries are required:
 
 
 # Usage Instructions
+Run the main python file once all dependencies are installed. By default, the program will use the features and model files we've included. Using the trained models and data we’ve created you should be able to get the same results we’ve gotten here. If you want to run this on new data, make sure to delete the files named: 
 
+test_features.npy
+train_features.npy
+Trained_models.npy
+
+This will force the python file to create new data based on whatever genres and songs are included in the music/ folder.
+
+# Folder Contents
+main.py - this is the python file to run. It calls the functions to create training data if it isn’t there, it runs gradient descent on the models if the trained model matrix isn’t there, and then shows the 
+
+createdata.py - this is the function that is called to create the models and featureset
+
+g.py - the sigmoid function used in logistic regression
+
+printgenreforint.py - has a function to print out the name of directory based on the int given
+
+train_features.npy - These are the features generated using the training data set of songs
+
+test_features.npy - Features generated using the test songs
+
+trained_models.npy - Trained theta matrix generated from our gradient descent file
+
+music/test &
+music/train - Not included in the github, so please download from the link we provided (for those of you who aren't Dr. Hoxha, please create your own music folders).
+These are set up like the following:
+```
+    music/
+        test/
+            rap/
+                song_file_1.mp3
+                song_file_2.mp3
+            country/
+                song_file_3.mp3
+            ...
+```
+
+
+
+## Development Process
+Genre Classifier is a project that learns genres of songs based on ~20 songs from each of the 8 genres. It’s written in Python and features multithreading and a little bit of TensorFlow. 
+
+### Is there anything out there like it? Is it special?
+There are things out there that accomplish what we want. Spotify uses something like this to sort songs by many different genres, here is an example of what others have done and more about what Spotify does here: https://towardsdatascience.com/music-genre-classification-with-python-c714d032f0d8
+
+What makes ours special is that this was made by some students who were not-yet jaded or burnt out and had many stars in their eyes while making this. Working with machine learning principles we learned in class and doing more research on our own to try to get this to be more accurate was really satisfying. Although this isn’t the fastest program (or the most accurate) it was made with love. (Sorry if this sounds cheesy, it’s really the only reason someone would want to use our program over something made by pros).
+
+### Original Ideas
+At first, we wrote our own gradient descent and logistic regression algorithms, using what we learned in class. We created trained models containing 8 different gradient-descented-models, that could predict if 1: it was the genre or 0: it wasn’t the genre.
+
+Using these models, we ran them on each We created prediction matrices that were 8 rows by 1 column, containing the percentage of what the models thought of the current song. Then, we checked the max number in this matrix and saw what model had the highest prediction.
+
+### Issues
+Doing it this way gave us quite a few issues, usually by guessing the same genre for every song. This could be the fault of a lot of things:
+We had different numbers of training data for each of the genres. I.e. country had 20 songs but rap had 15.
+We had a very small amount of data. If we had access to thousands of mp3 files, we’d be able to train these models to have a much higher accuracy.
+Songs can belong to more than one genre, some people can’t even do what this is trying to do. There are many songs that can be classified as “both rock and alternative” or even a “mix of country and rap.”
+Data is too complex to go through with just one model
+
+
+
+
+### Cutting Down on Genres
+As having 8 genres gave us mostly-incorrect predictions, we tried taking some genres out to see if it could correctly distinguish between 2 genres. Our algorithm worked much better doing this, and was able to correctly predict around ~50% of the songs.
+When having 3 genres available to create models, our hand-coded logistic regression algorithm gets 23 songs guessed correctly out of 50.
+
+
+
+### Trying out TensorFlow
+Switching to Tensorflow, we found varying results on each run. Sometimes, we got accuracy of 100%, other times we got 0%, it really depended on how it was feeling. We tried different optimization functions included with TensorFlow. Out of SGD (Stochastic Gradient Descent), Adam, Adamax, and Adadelta, we found that Adadelta worked the best. We also experimented with learning rate and rho values (decay rate), and found that 0.02 and rho of 1.5 worked best.
+
+We've included both our own algorithm and TenorFlow's algorithms in the project, so you can see how ours stacks up against professional machine learning stuff.
